@@ -1,13 +1,19 @@
 package com.classpath.helloworld.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(name="posts")
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long postId;
     private String title, description, author, imageUrl;
     private LocalDate timestamp;
 
+    Post() {}
     public Post(long postId, String title, String description, String author, String imageUrl, LocalDate timestamp) {
         this.postId = postId;
         this.title = title;
