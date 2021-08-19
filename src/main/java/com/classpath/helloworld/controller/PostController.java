@@ -24,17 +24,17 @@ public class PostController {
 
     @GetMapping("/{id}")
     Post fetchPostWithId(@PathVariable("id") long postId) {
-        return this.postService.fetchPostWithId(postId);
+        return this.postService.fetchPostById(postId);
     }
 
     @PostMapping
     public Post Save(@RequestBody Post post) {
-        return this.postService.save(post);
+        return this.postService.savePost(post);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") long postId) {
-        this.postService.deletePostWithId(postId);
+        this.postService.deletePostById(postId);
     }
 }

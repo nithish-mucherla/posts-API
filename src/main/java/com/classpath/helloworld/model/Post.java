@@ -2,7 +2,9 @@ package com.classpath.helloworld.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="posts")
@@ -13,7 +15,7 @@ public class Post {
     private String title, description, author, imageUrl;
     private LocalDate timestamp;
 
-    Post() {}
+    public Post() {}
     public Post(long postId, String title, String description, String author, String imageUrl, LocalDate timestamp) {
         this.postId = postId;
         this.title = title;
@@ -27,6 +29,19 @@ public class Post {
         return postId;
     }
 
+    @OneToMany(mappedBy = "post",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    private Set<Comment> comments = new HashSet<>();
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setPost(this);
+    }
     public void setPostId(long postId) {
         this.postId = postId;
     }
