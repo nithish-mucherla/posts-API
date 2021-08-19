@@ -67,10 +67,6 @@ public class Post {
         this.description = description;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
     public void setAuthor(Author author) {
         this.author = author;
     }
