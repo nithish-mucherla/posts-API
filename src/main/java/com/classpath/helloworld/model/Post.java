@@ -12,11 +12,21 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long postId;
-    private String title, description, author, imageUrl;
+    private String title, description, imageUrl;
     private LocalDate timestamp;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    @OneToMany(mappedBy = "post",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER
+    )
+    private Set<Comment> comments = new HashSet<>();
+
     public Post() {}
-    public Post(long postId, String title, String description, String author, String imageUrl, LocalDate timestamp) {
+    public Post(long postId, String title, String description, Author author, String imageUrl, LocalDate timestamp) {
         this.postId = postId;
         this.title = title;
         this.description = description;
@@ -29,11 +39,6 @@ public class Post {
         return postId;
     }
 
-    @OneToMany(mappedBy = "post",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER
-    )
-    private Set<Comment> comments = new HashSet<>();
     public Set<Comment> getComments() {
         return comments;
     }
@@ -62,11 +67,11 @@ public class Post {
         this.description = description;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 

@@ -1,7 +1,9 @@
 package com.classpath.helloworld.util;
 
+import com.classpath.helloworld.model.Author;
 import com.classpath.helloworld.model.Comment;
 import com.classpath.helloworld.model.Post;
+import com.classpath.helloworld.repository.AuthorRepository;
 import com.classpath.helloworld.repository.PostRepository;
 import javafx.application.Application;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -15,31 +17,39 @@ public class BootstrapPostData implements ApplicationListener<ApplicationReadyEv
     //ApplicationListener<ApplicationReadyEvent> will aid the compiler to execute the event handler only after the application is ready
 
     private PostRepository postRepository;
+    private AuthorRepository authorRepository;
 
-    BootstrapPostData(PostRepository postRepository) {
+    BootstrapPostData(PostRepository postRepository, AuthorRepository authorRepository) {
         this.postRepository = postRepository;
+        this.authorRepository = authorRepository;
     }
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        Post post1 = new Post();
-        post1.setAuthor("Admin");
-        post1.setDescription("Des-1");
-        post1.setTimestamp(LocalDate.now());
-        post1.setTitle("Post-1");
-        post1.setImageUrl("imageUrl");
+
+        Author author = new Author();
+        author.setName("Harish");
+        author.setEmailAddress("harish@gmail.com");
+
+        Post post = new Post();
+        post.setTimestamp(LocalDate.now());
+        post.setDescription("Blog on Java and Advance Java ");
 
         Comment comment1 = new Comment();
-        comment1.setComment("Good post");
+        comment1.setComment("Nice post");
         Comment comment2 = new Comment();
-        comment2.setComment("Please continue the work");
+        comment2.setComment("Very useful and engaging");
         Comment comment3 = new Comment();
-        comment3.setComment("Congratulations!");
+        comment3.setComment("Looking for more posts like this ");
+        Comment comment4 = new Comment();
+        comment4.setComment("This is exactly what I was looking for .");
 
-        post1.addComment(comment1);
-        post1.addComment(comment2);
-        post1.addComment(comment3);
+        post.addComment(comment1);
+        post.addComment(comment2);
+        post.addComment(comment3);
+        post.addComment(comment4);
 
-        this.postRepository.save(post1);
+        author.addPost(post);
 
+        this.authorRepository.save(author);
     }
 }
